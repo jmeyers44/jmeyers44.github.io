@@ -3,10 +3,10 @@
 # ----------------------- #
 
 url: http://yoursite.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
-simple_search: https://www.google.com/search
+title: Relentless Constant
+subtitle: Deep dives in the ocean of code
+author: Jonathan Meyers
+simple_search: 
 description:
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
