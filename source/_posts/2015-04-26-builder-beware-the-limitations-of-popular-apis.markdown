@@ -30,7 +30,7 @@ That means that every day a single project could get a maximum  of 833,333,335 l
 
 The take away from this section is that the YouTube API has given developers enough runway to onboard a meaningful amount of users before any quota limits are reached. Google has channels for developers to request additional limits as well, however that functionality seems to be temporarily suspended. 
 
-<img src="/images/google_api.png" alt="google api notice">
+<img src="/images/google_api.png" alt="google api notice" height="100%"width="100%">
 
 <h3>Instagram</h3>
 
@@ -47,7 +47,7 @@ Theoretically, a single user could call between 105,000 and 115,000 liked photos
 
 <h3>Spotify</h3>
 Spotify does not have explicit rate limits defined in its API, however a few posts on their API forum yielded the following conversation with two Spotify developers.
-<img src="/images/spotify_forum.png" alt="spotify developer forum">
+<img src="/images/spotify_forum.png" alt="spotify developer forum" width="100%" height="100%">
 
 In short, Spotify has vauge rate limits regarding their various endpoints. Authenitcated requests will have higher rate limits. However, all rate limits are on a per application basis. 
 
