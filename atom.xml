@@ -4,7 +4,7 @@
   <title><![CDATA[Relentless Constant]]></title>
   <link href="http://jmeyers44.github.io/atom.xml" rel="self"/>
   <link href="http://jmeyers44.github.io/"/>
-  <updated>2015-04-13T17:32:49-04:00</updated>
+  <updated>2015-04-26T23:30:56-04:00</updated>
   <id>http://jmeyers44.github.io/</id>
   <author>
     <name><![CDATA[Jonathan Meyers]]></name>
@@ -14,11 +14,171 @@
 
   
   <entry>
-    <title type="html"><![CDATA[My First Post on Octopress]]></title>
-    <link href="http://jmeyers44.github.io/blog/2015/04/13/my-first-post-on-octopress/"/>
-    <updated>2015-04-13T17:29:55-04:00</updated>
-    <id>http://jmeyers44.github.io/blog/2015/04/13/my-first-post-on-octopress</id>
-    <content type="html"><![CDATA[<p>&ldquo;Hello World&rdquo;</p>
+    <title type="html"><![CDATA[Builder Beware: The Limitations of Popular APIs]]></title>
+    <link href="http://jmeyers44.github.io/blog/2015/04/26/builder-beware-the-limitations-of-popular-apis/"/>
+    <updated>2015-04-26T23:09:33-04:00</updated>
+    <id>http://jmeyers44.github.io/blog/2015/04/26/builder-beware-the-limitations-of-popular-apis</id>
+    <content type="html"><![CDATA[<p><br></p>
+
+<h3>YouTube:</h3>
+
+
+<p></p>
+
+<p>Limit: 50,000,000 per day
+or 30,000 per user per second
+However there is a global quota pool.
+That means that any user or ip-address associated with a specific project will decrement the global quota pool.</p>
+
+<blockquote><p>In v3, there is a global quota pool (of 50 million units/day), and all API calls that are associated with a specific project in the Developers Console decrement quota from that pool. Therefore, it is theoretically possible for a single IP address or channel to consume all of the quota associated with an API registration, which could lead to an outage that affects other users. <a href="https://developers.google.com/youtube/2.0/deprecation_faq" target="_blank">Source</a></p></blockquote>
+
+<p><code>GET https://www.googleapis.com/youtube/v3/activities?part=snippet&amp;maxResults=50&amp;mine=true&amp;key={YOUR_API_KEY}</code></p>
+
+<p>Would incur a quota cost of 3.</p>
+
+<p>That means that every day a single project could get a maximum  of 833,333,335 likes from the YouTube API.<br/>
+(50,000,000/3) = 16,666,666 page results
+16,666,666 * 50 liked videos per page
+=833,333,335 liked videos</p>
+
+<p><em>The real number of likes a project could get from the API each day would be less as various users would not make requests at the optimal 50 results per page.</em></p>
+
+<p>The take away from this section is that the YouTube API has given developers enough runway to onboard a meaningful amount of users before any quota limits are reached. Google has channels for developers to request additional limits as well, however that functionality seems to be temporarily suspended.</p>
+
+<p><img src="http://jmeyers44.github.io/images/google_api.png" alt="google api notice"></p>
+
+<h3>Instagram</h3>
+
+
+<p>Instagram has a different approach then Youtube by allowing a local quota pool for each authenticated user of 5,000/hour per token.</p>
+
+<blockquote><p>We recommend that you use an Oauth token for the authenticated user for each endpoint, even in cases where it&rsquo;s not required, since the rate limit for authenticated calls scales as you grow the amount of people using your app. <a href="https://instagram.com/developer/limits/" target="_blank">Source</a></p></blockquote>
+
+<p>Instagram usually returns between 21-23 liked photos per API call. The code below deprecates the hourly quota of 5,000 by 1.</p>
+
+<p><code>GET/users/self/media/liked</code></p>
+
+<p>Theoretically, a single user could call between 105,000 and 115,000 liked photos per hour. However, Instagram will return an error if the API is called too frequently. Stating</p>
+
+<blockquote><p>Be nice. If you&rsquo;re sending too many requests too quickly, we&rsquo;ll send back a 503 error code (server unavailable).</p></blockquote>
+
+<h3>Spotify</h3>
+
+
+<p>Spotify does not have explicit rate limits defined in its API, however a few posts on their API forum yielded the following conversation with two Spotify developers.
+<img src="http://jmeyers44.github.io/images/spotify_forum.png" alt="spotify developer forum"></p>
+
+<p>In short, Spotify has vauge rate limits regarding their various endpoints. Authenitcated requests will have higher rate limits. However, all rate limits are on a per application basis.</p>
+
+<h3>SoundCloud</h3>
+
+
+<p>I could not find any information regarding the rate limits of the Soundcloud API.Their documentation did have this to say&hellip;</p>
+
+<blockquote><p>We reserve the right, at our discretion, to impose restrictions and limitations on the number and frequency of calls made by your app to the SoundCloud® API. You must not attempt to circumvent any restrictions or limitations that we impose.</p></blockquote>
+
+<h3>Are APIs Limitless&#8230;?
+
+<img src="http://jmeyers44.github.io/images/limitless.gif" alt="limitless">
+
+&#8230;not quite.</h3>
+
+
+
+
+<!--Talk about failed companies https://feedient.com/-->
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Databases: FROM the basics TO facebook]]></title>
+    <link href="http://jmeyers44.github.io/blog/2015/04/26/databases-from-the-basics-to-facebook/"/>
+    <updated>2015-04-26T22:27:58-04:00</updated>
+    <id>http://jmeyers44.github.io/blog/2015/04/26/databases-from-the-basics-to-facebook</id>
+    <content type="html"><![CDATA[<p>What is a database? If you had to guess would you say it&rsquo;s like a bunch of these&hellip;
+<img src="http://jmeyers44.github.io/images/excel_sheet.png" alt="excel sheet">
+<br>
+&hellip;jammed into something that looks like this&hellip;
+<br>
+<br>
+<img src="http://jmeyers44.github.io/images/Database_1.png" alt="database">
+<br></p>
+
+<p>..that makes a magical data vortex?</p>
+
+<iframe src="//giphy.com/embed/v37chFjA54wHC?html5=true" width="600" height="360" frameBorder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+
+<p><br>
+<strong>Well</strong>&hellip;that&rsquo;s not quite right.</p>
+
+<p>In this blog post we will take a look at the basic components of a database. As a beginner it is important to understand the fundamentals of databases, but it can also be helpful and even inspirational to see how some of the best minds and companies put these technologies to work.</p>
+
+<h4>High Level Database Architecture</h4>
+
+
+<p><strong>Databases</strong>: This is where you model your data. By and large, SQL based databases contain tables, indexes, views, stored procedures and triggers. This data is contained in a larger Database Management System(DBMS).</p>
+
+<p><strong>Database Management System:</strong> A DBMS is a collection of programs that enables you to store, modify, and extract information from a database. In addition to your data, these typically include programs responsible for security, query processing, a storage engine and a data dictionary. Examples of DBMS Models are Flat file, Hierarchical, Network, Relational and Object-Oriented. The relational model is the most commonly used today.</p>
+
+<p><strong>SQL</strong>
+Structured Query Language (SQL) is a special purpose programming language designed for handling data in a relational database management system. SQL was created in the 1970s  and commercialized by Oracle. Today open source resources like MySQL, PostgreSQL, SQLite and Firebird have helped SQL become one of the most popular database resources. Go check out the <a href=http://en.wikipedia.org/wiki/Query_language type=_blank>34 other query languages</a> on Wikipedia.</p>
+
+<p> <strong>NoSQL</strong>
+NoSQL (or Not Only SQL) refers to a variety of database modeling techniques, including key-value, graph and document, that do not rely on tabular relations (data organized into rows and columns with a unique key for each row). It does not require fixed table schemas, avoids join operations by storing denormalized data, and are designed to scale horizontally.</p>
+
+<p>Now that we have a little context, lets take a look at how one of the best technology companies in the world handles its data.</p>
+
+<h2>Facebook</h2>
+
+
+<p>Facebook delivers highly customized, real-time content to over 1 billion users. Various information types such as comments, likes, photos and videos must not only be served to their intended user, but must able to respond to spikes in requests should a specific piece of content go viral. To do this they use a highly customized version of MySQL. A conversation with two of Facebook&rsquo;s MySQL gurus details their thought process.</p>
+
+<p>A <a href="http://www.percona.com/blog/2014/03/27/a-conversation-with-5-facebook-mysql-gurus/" target=_"blank">conversation</a> with FB engineers Yoshinori Matsunobu &amp; Mark Callaghan.</p>
+
+<blockquote><p>Tom: Why MySQL? Wouldn’t NoSQL databases, for example, be better suited for the massive workloads seen at Facebook?</p>
+
+<p>Mark: MySQL is great for many of our important workloads. We make it even better with our expertise in MySQL operations and engineering, and by working with the community and learning from their experience.</p>
+
+<p>Yoshinori: I have not been able to find a transactional NoSQL database better than InnoDB. And it’s easy to understand how MySQL Replication works, which makes much easier to fix problems in production.</p></blockquote>
+
+<p><strong>Using the Graph API</strong>
+Facebook has a graph API (<a href="https://www.facebook.com/notes/facebook-engineering/tao-the-power-of-the-graph/10151525983993920" target="_blank">TAO</a>) that enables a user to access all of the social graph as if it were a large graph database. The power of a graph database is illustrated in the example from the FB API site below.</p>
+
+<p>Here&rsquo;s an example query that will retrieve up to five albums created by someone, and the last five posts in their feed.</p>
+
+<p><code>GET graph.facebook.com
+  /me?
+    fields=albums.limit(5),posts.limit(5)</code></p>
+
+<p>We can then extend this a bit more and for each album object, also retrieve the first two photos, and people tagged in each photo:</p>
+
+<p><code>GET graph.facebook.com
+  /me?
+    fields=albums.limit(5){name, photos.limit(2)},posts.limit(5)</code></p>
+
+<p>Now we can extend it again by retrieving the name of each photo, the picture URL, and the people tagged:</p>
+
+<p><code>GET graph.facebook.com
+  /me?
+    fields=albums.limit(5){name, photos.limit(2){name, picture, tags.limit(2)}},posts.limit(5)</code></p>
+
+<p>You can see how field expansion can work across nodes, edges, and fields to return really complex data in a single request. <a href="https://developers.facebook.com/docs/graph-api/using-graph-api/v2.3" target="_blank">Source</a></p>
+
+<p>I found the example above fascinating and illuminating. Up until this point I have only interacted with SQL and relied on joins to match data from one table to corresponding data in another table. The graph database provides an almost intuitive query flow to access information. Check out some of the resources below for more on how Facebook&rsquo;s engineers keep the world&rsquo;s largest social network up and running.</p>
+
+<p><em>Additional Reading</em><br/>
+Chip Turner, FB Engineering Manager <a href="http://www.percona.com/live/mysql-conference-2014/sites/default/files/slides/Percona%20Live%202014.pdf" type=_blank>DB Presentation</a>
+<a href="https://www.facebook.com/notes/facebook-engineering/tao-the-power-of-the-graph/10151525983993920" type=_blank>TAO: The Power of the Graph</a></p>
+
+<p><strong>BONUS GLOSSARY</strong></p>
+
+<p><a href=http://en.wikipedia.org/wiki/ACID target="_blank"><strong>ACID</strong></a> (Atomicity, Consistency, Isolation, Durability): This acronym is a set of properties that can guarantee that database transactions are processed reliably. <strong>Atomicity</strong> refers to a database transaction where either all operations occur or none occur. This is critical to prevent partial database updates. <strong>Consistency</strong> refers to a set of defined ruls that any given database transaction must follow. While it does not mean that a transaction will be error free, it does mean that the error cannot be the result of a violation of defined rules. <strong>Isolation</strong> is a general measure of users ability to access data concurrently. <strong>Durability</strong> is the requirement that committed transactions will survive even in the event of a system crash.</p>
+
+<p><em>NOTE: This was a very high level overview. If you have interest in diving into any of these topics some interesting subjects are <a href="http://en.wikipedia.org/wiki/Object-relational_impedance_mismatch" target_blank>Object-relational impedance mismatch</a>, <a href="http://en.wikipedia.org/wiki/Relational_model" target=_blank>The Relational Model</a> or any of the resources linked in the body of this post.</em></p>
 ]]></content>
   </entry>
   
