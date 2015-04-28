@@ -6,20 +6,22 @@ comments: true
 categories: 
 ---
 <br>
+<p>This post came about during the research process of a project I'm building that involves heavy use of some of the web's most popular media services. YouTube, Instagram, Spotify and Soundcloud all have APIs, but have very different approaches to how they let developers access them. One of my biggest concerns of working with these APIs was not the data I could request, but how much I could request and how fast. This post breaks down the current API usage for each of the aforementioned services.</p>
+
+<br>
 <h3>YouTube:</h3> 
 
-
-
-Limit: 50,000,000 per day
-or 30,000 per user per second
-However there is a global quota pool.
+Application Limit: 50,000,000 units per day
+or 30,000 units per user per second
+This limit describes a global quota pool.
 That means that any user or ip-address associated with a specific project will decrement the global quota pool.
 
 >In v3, there is a global quota pool (of 50 million units/day), and all API calls that are associated with a specific project in the Developers Console decrement quota from that pool. Therefore, it is theoretically possible for a single IP address or channel to consume all of the quota associated with an API registration, which could lead to an outage that affects other users. <a href="https://developers.google.com/youtube/2.0/deprecation_faq" target="_blank">Source</a>
 
+The following is a code example, which obtains one page of a users likes, would incur a quota cost of 3 units.
+
 `GET https://www.googleapis.com/youtube/v3/activities?part=snippet&maxResults=50&mine=true&key={YOUR_API_KEY}`
 
-Would incur a quota cost of 3.
 
 That means that every day a single project could get a maximum  of 833,333,335 likes from the YouTube API.  
 (50,000,000/3) = 16,666,666 page results
@@ -34,7 +36,7 @@ The take away from this section is that the YouTube API has given developers eno
 
 <h3>Instagram</h3>
 
-Instagram has a different approach then Youtube by allowing a local quota pool for each authenticated user of 5,000/hour per token. 
+Instagram employs a different quota approach compared to Youtube by allowing a local quota pool for each authenticated user of 5,000 units per hour per token. 
 
 >We recommend that you use an Oauth token for the authenticated user for each endpoint, even in cases where it's not required, since the rate limit for authenticated calls scales as you grow the amount of people using your app. <a href="https://instagram.com/developer/limits/" target="_blank">Source</a>
 
@@ -63,7 +65,8 @@ I could not find any information regarding the rate limits of the Soundcloud API
 
 ...not quite.</h3>
 
-<!--Talk about failed companies https://feedient.com/-->
+<p>I think a full understanding of rate limits is a pre-requisite for any developer interested in using an API. An API like Spotify can not be used to power an app that depends on individual user data as the rate limit will be hit before even 100 users are signed up. Conversley, the YouTube API, while still employing a per application rate limit, provides developers with enough runway to get significant traction and users. The most developer friendly API, out of the four discussed here is the Instagram API, as the rate limit scales linerally with every user onboarded. While there are many other factors to consider before integrating an API into one's project, rate limits are a good place to start.</p>
+
 
 
 
