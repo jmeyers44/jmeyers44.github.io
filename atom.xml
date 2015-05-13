@@ -4,7 +4,7 @@
   <title><![CDATA[Relentless Constant]]></title>
   <link href="http://jmeyers44.github.io/atom.xml" rel="self"/>
   <link href="http://jmeyers44.github.io/"/>
-  <updated>2015-05-12T18:33:02-04:00</updated>
+  <updated>2015-05-12T22:25:34-04:00</updated>
   <id>http://jmeyers44.github.io/</id>
   <author>
     <name><![CDATA[Jonathan Meyers]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Need for Speed: YARV v. Node]]></title>
-    <link href="http://jmeyers44.github.io/blog/2015/05/12/need-for-speed-ruby-mri-v-node-dot-js/"/>
+    <link href="http://jmeyers44.github.io/blog/2015/05/12/need-for-speed-ruby-YARV-v-node-js/"/>
     <updated>2015-05-12T08:57:17-04:00</updated>
-    <id>http://jmeyers44.github.io/blog/2015/05/12/need-for-speed-ruby-mri-v-node-dot-js</id>
+    <id>http://jmeyers44.github.io/blog/2015/05/12/need-for-speed-ruby-YARV-v-node-js</id>
     <content type="html"><![CDATA[<p><p>On my first day learning javascript, I kept hearing / reading how much &lsquo;faster&rsquo; my javascript programs would run compared to the Ruby programs I was accustomed to. One of the main reasons for the increased speed is V8, <a href="https://developers.google.com/v8/" target="_blank">Google&rsquo;s open source high-performance JavaScript engine</a>. I decided the best way to put my new found knowledge to the test was to have a drag race. I decided to use the first <a href="https://projecteuler.net/problem=1" target="_blank">Project Euler</a> problem as my drag strip, and node.js and YARV as my race cars.
 <br></p>
 
