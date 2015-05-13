@@ -4,7 +4,7 @@
   <title><![CDATA[Relentless Constant]]></title>
   <link href="http://jmeyers44.github.io/atom.xml" rel="self"/>
   <link href="http://jmeyers44.github.io/"/>
-  <updated>2015-05-12T22:25:34-04:00</updated>
+  <updated>2015-05-13T09:50:57-04:00</updated>
   <id>http://jmeyers44.github.io/</id>
   <author>
     <name><![CDATA[Jonathan Meyers]]></name>
@@ -34,7 +34,7 @@
 <span style="color: #f8f8f2">total</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">0</span>
 <span style="color: #f8f8f2">execution_time</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Benchmark</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">realtime{</span><br/>
   <span style="color: #f8f8f2">x</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">3</span>
-  <span style="color: #f8f8f2">until</span> <span style="color: #f8f8f2">x</span> <span style="color: #f92672">&gt;=</span> <span style="color: #ae81ff">100000000</span>
+  <span style="color: #f8f8f2">until</span> <span style="color: #f8f8f2">x</span> <span style="color: #f92672">&gt;=</span> <span style="color: #ae81ff">1000</span>
     <span style="color: #66d9ef">if</span> <span style="color: #f8f8f2">x</span> <span style="color: #f92672">%</span> <span style="color: #ae81ff">3</span> <span style="color: #f92672">==</span> <span style="color: #ae81ff">0</span> <span style="color: #f92672">||</span> <span style="color: #f8f8f2">x</span> <span style="color: #f92672">%</span> <span style="color: #ae81ff">5</span> <span style="color: #f92672">==</span> <span style="color: #ae81ff">0</span>
       <span style="color: #f8f8f2">total</span> <span style="color: #f92672">+=</span> <span style="color: #f8f8f2">x</span>
     <span style="color: #f8f8f2">end</span>
@@ -80,6 +80,8 @@
 <h3>JAVASCRIPT WINS BY A LANDSLIDE!!!!</h3>
 <br>
 <p>I was fascinated by the results of these two tests. Even though they confirmed that Javascript is very fast, the tests uncovered an interesting interpreter behavior. My first guess as to why Ruby performs better on small calculations is start up time. Node may have a slower initialization time, which would lead to slower performance on small calculations, but improved performance on large calculations where the full wrath of V8 can be unleashed. I look forward to testing more Project Euler problems and taking a look under the hood of both node and YARV in the near future.</p></p>
+
+<p><p><a href="https://github.com/jmeyers44/project-euler-js-v-ruby">Be sure to check out the github repo for this project and submit a pull request for your race.</a></p></p>
 ]]></content>
   </entry>
   
