@@ -1,9 +1,20 @@
 $( document ).ready(function() {
     console.log( "ready!" );
 });
+$(window).bind("load", function() {
+   // code here
+
 
 // select video element
+// var selectVid = document.getElementById('v0');
+//convert to blob
+// var vid = document.getElementById('v0');
+var blob = new Blob([document.getElementById('v0')]);
+var obj_url = window.URL.createObjectURL(blob);
+$('source').attr('src',obj_url)
 var vid = document.getElementById('v0');
+
+
 
 // pause video on load
 vid.pause();
@@ -23,3 +34,5 @@ setInterval(function(){
     var scrubTime = scrubTimeSelect.top
     vid.currentTime = eval(totalTime+ " " + "-" + " " + scrubTime) /25;
 }, 40);
+
+});
