@@ -9,7 +9,7 @@
 
 	<meta name="author" content="Jonathan Meyers">
 	
-	<meta name="description" content="12 May 2015 Need for Speed: YARV v. Node On my first day learning javascript, I kept hearing / reading how much &lsquo;faster&rsquo; my javascript &hellip;">
+	<meta name="description" content="21 May 2015 Scrubbing Video on Scroll During a recent visit to Apple's website, I noticed an amazing animation on their Macbook product page. As I &hellip;">
 
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="MobileOptimized" content="320" />
@@ -44,6 +44,120 @@
       
 	
 		
+	
+	<header class="post-header">
+		<span class="post-meta">21 May 2015</span>
+		<h2 class="post-title">
+			
+			<a href="/blog/2015/05/21/scrubbing-video-on-scroll/">
+			
+				Scrubbing Video on Scroll</a>
+		</h2>
+	</header>
+	<section class="post-excerpt">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+
+<p><br></p>
+
+<div id="vid-container" style="overflow-y: scroll; height:400px;">
+  <div id="vid-container-2" style="height:800px;position;relative">
+    <video id="v0" style="position: absolute;left: 0;width: 100%;" tabindex="0" autobuffer="autobuffer" preload="preload">
+      <source type="video/mp4; codecs=&quot;avc1.42E01E, mp4a.40.2&quot;" src="/images/flower-slow-bloom-4k.mp4"></source>
+    </video>
+  </div>
+</div>
+
+
+<p></p>
+
+<p>During a recent visit to Apple&#8217;s website, I noticed an amazing animation on their Macbook product page. As I scrolled down to learn more about their new Macbook, the computer opened and changed its orientation based on my scroll. I thought it was so cool, I decided to figure out how it worked. As I dug through the site with Chrome developer tools I realized that the &#8216;animation&#8217; was simply a very well produced video. I figured out that my scroll was simply controlling where the playhead position was in this video. Simple enough. Now to build my own.</p>
+
+
+
+
+<p>Creating a scrollable video can be broken down into three parts:<ol><li>Capturing a value set the playhead equal to</li><li>Setting the playhead to that value</li><li>Repeating this code at a very fast time interval to create the illusion of smooth video playback</li></ol>Below you can see the html that creates the flower video above.</p>
+
+
+<!-- HTML generated using hilite.me -->
+
+
+<div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #f92672">&lt;div</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;vid-container&quot;</span> <span style="color: #a6e22e">style=</span><span style="color: #e6db74">&quot;overflow-y: scroll; height:400px;&quot;</span><span style="color: #f92672">&gt;</span>
+  <span style="color: #f92672">&lt;div</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;vid-container-2&quot;</span> <span style="color: #a6e22e">style=</span><span style="color: #e6db74">&quot;height:800px;position;relative&quot;</span><span style="color: #f92672">&gt;</span>
+    <span style="color: #f92672">&lt;video</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;v0&quot;</span> <span style="color: #a6e22e">style=</span><span style="color: #e6db74">&quot;position: absolute;left: 0;width: 100%;&quot;</span> <span style="color: #a6e22e">tabindex=</span><span style="color: #e6db74">&quot;0&quot;</span> <span style="color: #a6e22e">autobuffer=</span><span style="color: #e6db74">&quot;autobuffer&quot;</span> <span style="color: #a6e22e">preload=</span><span style="color: #e6db74">&quot;preload&quot;</span><span style="color: #f92672">&gt;</span>
+      <span style="color: #f92672">&lt;source</span> <span style="color: #a6e22e">type=</span><span style="color: #e6db74">&quot;video/mp4; codecs=&amp;quot;avc1.42E01E, mp4a.40.2&amp;quot;&quot;</span> <span style="color: #a6e22e">src=</span><span style="color: #e6db74">&quot;/images/flower-slow-bloom-4k.mp4&quot;</span><span style="color: #f92672">&gt;&lt;/source&gt;</span>
+    <span style="color: #f92672">&lt;/video&gt;</span>
+  <span style="color: #f92672">&lt;/div&gt;</span>
+<span style="color: #f92672">&lt;/div&gt;</span>  
+</pre></div>
+
+
+
+
+<p>The code creates a small div, which should be just large enough to fit the dimensions of the video. By using &#8216;overflow-y: scroll;&#8217;, any contents included in this div, that are larger than the height of the div, can now be scrolled. So to take advantage of this, I create a taller div inside of my original div. Finally, I include the video and source inside of this div with absolute positioning so it will no move as the content inside the div is scrolled. In order to make this video work in the context of my blog page, I used a lot of inline styling to preserve the integrity of my blog css file. I would reccomend moving all this styling to a sepearte css file if you would plan on creating a scrollable video on your own site.</p>
+
+
+
+
+<p>Below is the javascript that makes the video come alive!</p>
+
+
+<!-- HTML generated using hilite.me -->
+
+
+<div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(</span> <span style="color: #f8f8f2">document</span> <span style="color: #f8f8f2">).</span><span style="color: #a6e22e">ready</span><span style="color: #f8f8f2">(</span><span style="color: #66d9ef">function</span><span style="color: #f8f8f2">()</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #a6e22e">console</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">log</span><span style="color: #f8f8f2">(</span> <span style="color: #e6db74">&quot;ready!&quot;</span> <span style="color: #f8f8f2">);</span>
+<span style="color: #f8f8f2">});</span>
+
+<span style="color: #75715e">// select video element</span>
+<span style="color: #66d9ef">var</span> <span style="color: #a6e22e">vid</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">document.</span><span style="color: #a6e22e">getElementById</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;v0&#39;</span><span style="color: #f8f8f2">);</span>
+
+<span style="color: #75715e">// pause video on load</span>
+<span style="color: #a6e22e">vid</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">pause</span><span style="color: #f8f8f2">();</span>
+ 
+<span style="color: #75715e">// pause video on document scroll (stops autoplay once scroll started)</span>
+<span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;#vid-container&#39;</span><span style="color: #f8f8f2">).</span><span style="color: #a6e22e">onscroll</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(){</span>
+    <span style="color: #a6e22e">vid</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">pause</span><span style="color: #f8f8f2">();</span>
+<span style="color: #f8f8f2">};</span>
+
+<span style="color: #75715e">// refresh video frames on interval for smoother playback</span>
+<span style="color: #75715e">// dividing the totalTime scrubTime calculation by 25 determines </span>
+<span style="color: #75715e">// how many frames will be covered in the span of a &#39;normal&#39; scroll</span>
+<span style="color: #75715e">// the lower the number, the more frames will be covered in a scroll</span>
+<span style="color: #a6e22e">setInterval</span><span style="color: #f8f8f2">(</span><span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(){</span>
+    <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">totalTime</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">290</span>
+    <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">scrubTimeSelect</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;#vid-container-2&#39;</span><span style="color: #f8f8f2">).</span><span style="color: #a6e22e">position</span><span style="color: #f8f8f2">();</span>
+    <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">scrubTime</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">scrubTimeSelect</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">top</span>
+    <span style="color: #a6e22e">vid</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">currentTime</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">eval(</span><span style="color: #a6e22e">totalTime</span> <span style="color: #f92672">+</span> <span style="color: #e6db74">&quot;-&quot;</span> <span style="color: #f92672">+</span> <span style="color: #a6e22e">scrubTime</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">/</span><span style="color: #ae81ff">25</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">},</span> <span style="color: #ae81ff">40</span><span style="color: #f8f8f2">);</span>
+</pre></div>
+
+
+
+
+<p>I have included some comments to explain what each part of the code is doing. The setInterval function is one of the more powerful parts of this code. It finds how far the div containing the flower video has scrolled, does a calculation to inverse that number (so the flower goes from closed to open and not opened to close), and finally sets the current time of the video. It then repeats this code every 40ms. This allows for smooth playback experience. For clarity, the video is not actually &#8216;playing&#8217; during any point of this code. This code simply sets a new frame based on how far a user has scrolled and repeats this process very frequently.</p>
+
+
+<h2>What really excites me&#8230;</h2>
+
+
+<p>&#8230;is other implementations of value input to control video playback. While a scroll is an interesting way of controlling the values passed to vid.currentTime, there are many other possbilities including physical devices, audio input, etc. Additionally, I&#8217;m interested in seeing how different video sources could be used instead of being constrained to one video stored locally. Find out more about this project at my <a href="https://github.com/jmeyers44/scrub-video-on-scroll" target="_blank">Github page</a> to stay up to date and, as always, feel free to contribute and submit a pull request!</p>
+
+
+
+
+<script src="/javascripts/flower.js"></script>
+
+
+
+
+	</section>
+
+    </article>
+
+  
+    <article class="post">
+      
 	
 	<header class="post-header">
 		<span class="post-meta">12 May 2015</span>
