@@ -21,5 +21,5 @@ setInterval(function(){
     var totalTime = 290
     var scrubTimeSelect = $('#vid-container-2').position();
     var scrubTime = scrubTimeSelect.top
-    vid.currentTime = eval(totalTime + "-" + scrubTime) /25;
+    vid.currentTime = eval(totalTime+ " " + "-" + " " + scrubTime) /25;
 }, 40);
