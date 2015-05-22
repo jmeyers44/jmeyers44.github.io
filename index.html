@@ -138,6 +138,50 @@
 <p>I have included some comments to explain what each part of the code is doing. The setInterval function is one of the more powerful parts of this code. It finds how far the div containing the flower video has scrolled, does a calculation to inverse that number (so the flower goes from closed to open and not opened to close), and finally sets the current time of the video. It then repeats this code every 40ms. This allows for smooth playback experience. For clarity, the video is not actually &#8216;playing&#8217; during any point of this code. This code simply sets a new frame based on how far a user has scrolled and repeats this process very frequently.</p>
 
 
+
+
+<p>To get this to work in a production environment, you will need to load the video file into a blob url so it can be stored in memory instead of sending get requests to a server every 40ms.</p>
+
+
+
+
+<!-- HTML generated using hilite.me -->
+
+
+<div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(</span> <span style="color: #f8f8f2">document</span> <span style="color: #f8f8f2">).</span><span style="color: #a6e22e">ready</span><span style="color: #f8f8f2">(</span><span style="color: #66d9ef">function</span><span style="color: #f8f8f2">()</span> <span style="color: #f8f8f2">{</span>
+
+  <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">xhr</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">new</span> <span style="color: #a6e22e">XMLHttpRequest</span><span style="color: #f8f8f2">();</span>
+  <span style="color: #a6e22e">xhr</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">open</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;GET&#39;</span><span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&#39;/images/flower-slow-bloom-4k.mp4&#39;</span><span style="color: #f8f8f2">,</span> <span style="color: #66d9ef">true</span><span style="color: #f8f8f2">);</span>
+  <span style="color: #a6e22e">xhr</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">responseType</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;blob&#39;</span><span style="color: #f8f8f2">;</span>
+
+  <span style="color: #a6e22e">xhr</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">onload</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">e</span><span style="color: #f8f8f2">)</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #66d9ef">if</span> <span style="color: #f8f8f2">(</span><span style="color: #66d9ef">this</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">status</span> <span style="color: #f92672">==</span> <span style="color: #ae81ff">200</span><span style="color: #f8f8f2">)</span> <span style="color: #f8f8f2">{</span>
+      <span style="color: #75715e">// Note: .response instead of .responseText</span>
+      <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">blob</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">this</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">response</span><span style="color: #f8f8f2">;</span>
+      <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">vid_url</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">URL</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">createObjectURL</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">blob</span><span style="color: #f8f8f2">);</span>
+      <span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;video&#39;</span><span style="color: #f8f8f2">).</span><span style="color: #a6e22e">attr</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;src&#39;</span><span style="color: #f8f8f2">,</span><span style="color: #a6e22e">vid_url</span><span style="color: #f8f8f2">)</span>
+      <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">video</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;video&#39;</span><span style="color: #f8f8f2">);</span>
+      <span style="color: #a6e22e">video</span><span style="color: #f8f8f2">[</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">].</span><span style="color: #a6e22e">onload</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(){</span>
+        <span style="color: #66d9ef">debugger</span><span style="color: #f8f8f2">;</span>
+        <span style="color: #a6e22e">URL</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">revokeObjectURL</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">vid_url</span><span style="color: #f8f8f2">)</span>
+      <span style="color: #f8f8f2">}</span>
+      <span style="color: #a6e22e">video</span><span style="color: #f8f8f2">[</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">].</span><span style="color: #a6e22e">play</span><span style="color: #f8f8f2">()</span>
+    <span style="color: #f8f8f2">}</span>
+  <span style="color: #f8f8f2">};</span>
+
+  <span style="color: #a6e22e">xhr</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">send</span><span style="color: #f8f8f2">();</span>
+    <span style="color: #a6e22e">console</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">log</span><span style="color: #f8f8f2">(</span> <span style="color: #e6db74">&quot;ready!&quot;</span> <span style="color: #f8f8f2">);</span>
+<span style="color: #f8f8f2">});</span>
+</pre></div>
+
+
+
+
+<p>One thing to note is the video scroll can become laggy when a user has a lot of tabs open.</p>
+
+
+
+
 <h2>What really excites me&#8230;</h2>
 
 
