@@ -51,12 +51,12 @@
 
 <p></p>
 
-<p>During a recent visit to Apple&#8217;s website, I noticed an amazing animation on their Macbook product page. As I scrolled down to learn more about their new Macbook, the computer opened and changed its orientation based on my scroll. I thought it was so cool, I decided to figure out how it worked. As I dug through the site with Chrome developer tools I realized that the &#8216;animation&#8217; was simply a very well produced video. I figured out that my scroll was simply controlling where the playhead position was in this video. Simple enough. Now to build my own.</p>
+<p>During a recent visit to Apple&#8217;s website, I noticed an amazing animation on their Macbook product page. As I scrolled down to learn more about their new Macbook, the laptop on the screen opened and changed its orientation based on my scroll. I thought it was so cool, I decided to figure out how it worked. As I dug through the site with Chrome developer tools I realized that the &#8216;animation&#8217; was actually a very well produced video. I figured out that my scroll was controlling where the &#8216;playhead&#8217; position was in this video. Simple enough. Now to build my own.</p>
 
 
 
 
-<p>Creating a scrollable video can be broken down into three parts:<ol><li>Capturing a value set the playhead equal to</li><li>Setting the playhead to that value</li><li>Repeating this code at a very fast time interval to create the illusion of smooth video playback</li></ol>Below you can see the html that creates the flower video above.</p>
+<p>Creating a scrollable video can be broken down into three parts:<ol><li>Capturing a value to set the playhead position to</li><li>Setting the playhead to that value</li><li>Repeating this code at a very fast time interval to create smooth video playback</li></ol>Below you can see the html that creates the flower video above.</p>
 
 
 <!-- HTML generated using hilite.me -->
@@ -64,8 +64,8 @@
 
 <div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #f92672">&lt;div</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;vid-container&quot;</span> <span style="color: #a6e22e">style=</span><span style="color: #e6db74">&quot;overflow-y: scroll; height:400px;&quot;</span><span style="color: #f92672">&gt;</span>
   <span style="color: #f92672">&lt;div</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;vid-container-2&quot;</span> <span style="color: #a6e22e">style=</span><span style="color: #e6db74">&quot;height:800px;position;relative&quot;</span><span style="color: #f92672">&gt;</span>
-    <span style="color: #f92672">&lt;video</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;v0&quot;</span> <span style="color: #a6e22e">style=</span><span style="color: #e6db74">&quot;position: absolute;left: 0;width: 100%;&quot;</span> <span style="color: #a6e22e">tabindex=</span><span style="color: #e6db74">&quot;0&quot;</span> <span style="color: #a6e22e">autobuffer=</span><span style="color: #e6db74">&quot;autobuffer&quot;</span> <span style="color: #a6e22e">preload=</span><span style="color: #e6db74">&quot;preload&quot;</span><span style="color: #f92672">&gt;</span>
-      <span style="color: #f92672">&lt;source</span> <span style="color: #a6e22e">type=</span><span style="color: #e6db74">&quot;video/mp4; codecs=&amp;quot;avc1.42E01E, mp4a.40.2&amp;quot;&quot;</span> <span style="color: #a6e22e">src=</span><span style="color: #e6db74">&quot;/images/flower-slow-bloom-4k.mp4&quot;</span><span style="color: #f92672">&gt;&lt;/source&gt;</span>
+    <span style="color: #f92672">&lt;video</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;v0&quot;</span> <span style="color: #a6e22e">style=</span><span style="color: #e6db74">&quot;position: absolute;left: 0;width: 100%;&quot;</span> <span style="color: #a6e22e">tabindex=</span><span style="color: #e6db74">&quot;0&quot;</span> <span style="color: #f92672">&gt;</span>
+      <span style="color: #f92672">&lt;source</span> <span style="color: #a6e22e">type=</span><span style="color: #e6db74">&quot;video/mp4; codecs=&amp;quot;avc1.42E01E, mp4a.40.2&amp;quot;&quot;</span> <span style="color: #a6e22e">src=</span><span style="color: #e6db74">&quot;&quot;</span><span style="color: #f92672">&gt;&lt;/source&gt;</span> 
     <span style="color: #f92672">&lt;/video&gt;</span>
   <span style="color: #f92672">&lt;/div&gt;</span>
 <span style="color: #f92672">&lt;/div&gt;</span>  
@@ -85,12 +85,7 @@
 <!-- HTML generated using hilite.me -->
 
 
-<div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(</span> <span style="color: #f8f8f2">document</span> <span style="color: #f8f8f2">).</span><span style="color: #a6e22e">ready</span><span style="color: #f8f8f2">(</span><span style="color: #66d9ef">function</span><span style="color: #f8f8f2">()</span> <span style="color: #f8f8f2">{</span>
-    <span style="color: #a6e22e">console</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">log</span><span style="color: #f8f8f2">(</span> <span style="color: #e6db74">&quot;ready!&quot;</span> <span style="color: #f8f8f2">);</span>
-<span style="color: #f8f8f2">});</span>
-
-<span style="color: #75715e">// select video element</span>
-<span style="color: #66d9ef">var</span> <span style="color: #a6e22e">vid</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">document.</span><span style="color: #a6e22e">getElementById</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;v0&#39;</span><span style="color: #f8f8f2">);</span>
+<div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #66d9ef">var</span> <span style="color: #a6e22e">vid</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">document.</span><span style="color: #a6e22e">getElementById</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;v0&#39;</span><span style="color: #f8f8f2">);</span>
 
 <span style="color: #75715e">// pause video on load</span>
 <span style="color: #a6e22e">vid</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">pause</span><span style="color: #f8f8f2">();</span>
@@ -108,7 +103,7 @@
     <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">totalTime</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">290</span>
     <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">scrubTimeSelect</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;#vid-container-2&#39;</span><span style="color: #f8f8f2">).</span><span style="color: #a6e22e">position</span><span style="color: #f8f8f2">();</span>
     <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">scrubTime</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">scrubTimeSelect</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">top</span>
-    <span style="color: #a6e22e">vid</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">currentTime</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">eval(</span><span style="color: #a6e22e">totalTime</span> <span style="color: #f92672">+</span> <span style="color: #e6db74">&quot;-&quot;</span> <span style="color: #f92672">+</span> <span style="color: #a6e22e">scrubTime</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">/</span><span style="color: #ae81ff">25</span><span style="color: #f8f8f2">;</span>
+    <span style="color: #a6e22e">vid</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">currentTime</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">eval(</span><span style="color: #a6e22e">totalTime</span><span style="color: #f92672">+</span> <span style="color: #e6db74">&quot; &quot;</span> <span style="color: #f92672">+</span> <span style="color: #e6db74">&quot;-&quot;</span> <span style="color: #f92672">+</span> <span style="color: #e6db74">&quot; &quot;</span> <span style="color: #f92672">+</span> <span style="color: #a6e22e">scrubTime</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">/</span><span style="color: #ae81ff">25</span><span style="color: #f8f8f2">;</span>
 <span style="color: #f8f8f2">},</span> <span style="color: #ae81ff">40</span><span style="color: #f8f8f2">);</span>
 </pre></div>
 
