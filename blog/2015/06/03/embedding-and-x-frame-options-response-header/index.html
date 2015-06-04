@@ -1,0 +1,151 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="utf-8">
+	<title>&#8216;Embedding &amp; X-Frame-Options Response Header&#8217; | Relentless Constant</title>
+
+	<meta name="author" content="Jonathan Meyers">
+	
+	<meta name="description" content="Relentless Constant 03 Jun 2015 'Embedding &amp; X-Frame-Options Response Header' During a recent project, I came face to face with both the power &hellip;">
+
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link href="/atom.xml" rel="alternate" title="Relentless Constant" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400" />
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/.min.css" />
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+
+<body class="post-template">
+  <main class="content" role="main"><article class="post">
+  
+	<header class="post-header">
+		<a id="blog-logo" href="/">Relentless Constant</a>
+	</header>
+	<span class="post-meta">03 Jun 2015</span>
+	<h1 class="post-title">&#8216;Embedding &amp; X-Frame-Options Response Header&#8217;</h1>
+
+	<section class="post-content">
+		<p>During a recent project, I came face to face with both the power and peril of embeddable content. The premise of my recent project <a href="https://radiant-lowlands-6288.herokuapp.com/" target="_blank">Placemat</a> was to remove the friction that people encounter when sending content rich links (videos, music, articles, etc.) to one another. Sharing links is usually done through email, text messaging or on a social network. However none of these solutions allow a user to engage with all the content being sent to them in a single place. Additionally, users cannot persist these links in their own personal library or share their new knowledge short of sending another email, text, etc. and continuing the cycle. Embedding, when done right, can condense the vastness of the web into concise bits of knowledge. However, when allowing users to embed anything and everything, there are some serious hurdles to overcome.</p>
+
+
+
+
+<p>After we began development on our project, it wasn&#8217;t long before my collaborators and I encountered a &#8216;Same Origin&#8217; error when trying to generate an iframe with a generic YouTube url. After the same thing happened for a handful of other sites, I turned to StackOverflow only to realize that this is a common problem.</p>
+
+
+
+
+<p>The &#8220;Same-Origin&#8221; security policy dictates that a web browser may only permit scripts contained in a first web page to access data in a second web page if both web pages have the &#8216;same origin&#8217;. This means that a second web page must match the first in protocol, host and port. This table from Wikipedia gives a good breakdown of how this works in practice.</p>
+
+
+<p></p>
+
+<p><img class="left" src="/images/same-origin.png" width="700" title="image" alt="images"></p>
+
+<p>Same Origin is one of three possible <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/X-Frame-Options" target="_blank">X-Frame-Options</a>. These X-Frame options are included in an HTTP response header so a site can decide whether or not they want to permit their site to be embedded in a &#8220;frame&#8221;, &#8220;iframe&#8221; or &#8220;object&#8221;. A page can &#8216;Deny&#8217; display in a frame or &#8216;Allow-From uri&#8217;, meaning a page can only be displayed on the specified origin.</p>
+
+
+<p></p>
+
+<p>Many popular sites offer embeddable versions of their content for developers to use on their own sites. The following two links reference the same video.</p>
+
+
+<p><a href="https://www.youtube.com/watch?v=tV7NC0DGgVg">Non-Embeddable</a>
+<a href="https://www.youtube.com/embed/tV7NC0DGgVg">Embeddable</a></p>
+
+<p>The embeddable version does not have many of the familiar features users are accustomed to. There is no like button or comment section, just a barebones player. One of the motivations for sites like YouTube to format their embeddable content in this way is to prevent &#8216;Clickjacking&#8217;. Wikipedia describes this as, &#8220;a malicious technique of tricking a Web user into clicking on something different from what the user perceives they are clicking on.&#8221; For example, if a regular YouTube page could be embedded on another site, visitors of the second site could be &#8220;clickjacked&#8221; to end up clicking a like button or leaving a comment. Same-Origin is one of the defenses that YouTube employs to combat this and maintain the integrity of the viewing metrics of their community.</p>
+
+
+<p></p>
+
+<p>While many popular sites offer embeddable iframes for their content, there is no standardization in their format. Given the requirements that Placemat had to take a url entered by a user and generate embeddable content, we were faced with a challenge. It was not feasible to create custom logic for every major content site. Even if we did have the time to do this, we faced another challenge where certain sites (Vevo) prevent their content from being embedded on other sites with the exception of a few whitelisted partners. Thankfully, we found a solution in Embedly.</p>
+
+
+
+
+<p>Embedly turns any link into an embeddable &#8216;card&#8217;. They have over 250 content partners, which means the majority of our users&#8217; content would be formatted in a way that would be optimized its source. Additionally, they are a whitelisted partner of many sites, that otherwise would be unembeddable. Embedly does employ a rate limit for using its API, however there is no rate limit for converting links to cards with their javascript library. It works by simply adding a class of &#8220;embedly-card&#8221; to any <code><a></code> tag and including the their javascript file on the page (see an example included in this page below).</p>
+
+
+
+
+<h2>Looking forward&#8230;.</h2>
+
+
+<p>The rise of user generated content has flooded the web with more things than ever to watch, listen and read. While there are only a few popular platforms hosting this content, there are an endless amount of taste makers embedding this content on their own sites across the web. These taste makers give a sense of direction and context to an otherwise chaotic content eco-system. Embedding will be a critical part of the web going forward and the tools that will make this possible are still very much in their infancy.</p>
+
+
+<p></p>
+
+<p><a class="embedly-card" href="https://soundcloud.com/jmeymusic/this-side-of-paradise">This Side of Paradise by J. MEY</a></p>
+
+<script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+
+
+	</section>
+
+  <footer class="post-footer">
+  <section class="author">
+    <h4>Jonathan Meyers</h4>
+    <p></p>
+  </section>
+  <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?text='Embedding &amp; X-Frame-Options Response Header'&amp;url=http://jmeyers44.github.io/blog/2015/06/03/embedding-and-x-frame-options-response-header/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://jmeyers44.github.io/blog/2015/06/03/embedding-and-x-frame-options-response-header/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://jmeyers44.github.io/blog/2015/06/03/embedding-and-x-frame-options-response-header/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+    </a>
+  </section>
+</footer>
+  <hr>
+  
+    <div class="share">
+</div>
+
+  
+  
+</article></main>
+  <footer class="site-footer"><a class="subscribe icon-feed" href="http://jmeyers44.github.io/atom.xml"><span class="tooltip">Subscribe!</span></a>
+
+
+<div class="inner">
+
+
+
+
+
+
+
+
+
+<section class="copyright">All content copyright <a href="/">Jonathan Meyers</a> © 2015 • All rights reserved.</section>
+
+<section class="poweredby">Casper theme by <a class="icon-ghost" href="http://tryghost.org">Ghost</a> &amp; Published with <a href="http://octopress.org">Octopress</a></section>
+
+</div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+
+
+
+
+</body>
+</html>
