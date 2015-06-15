@@ -4,7 +4,7 @@
   <title><![CDATA[Relentless Constant]]></title>
   <link href="http://jmeyers44.github.io/atom.xml" rel="self"/>
   <link href="http://jmeyers44.github.io/"/>
-  <updated>2015-06-04T09:15:52-04:00</updated>
+  <updated>2015-06-15T14:00:46-04:00</updated>
   <id>http://jmeyers44.github.io/</id>
   <author>
     <name><![CDATA[Jonathan Meyers]]></name>
@@ -85,6 +85,11 @@
 
 
 <p><br></p>
+
+<p><i>Scroll the video below (Note: only compatible with Chrome, close all tabs for best performance)</i></p>
+
+
+
 
 <div id="vid-container" style="overflow-y: scroll; height:400px;">
   <div id="vid-container-2" style="height:800px;position;relative">
